@@ -328,6 +328,389 @@ namespace Yuruisoft.RS.Web.Controllers
                 error = true
             });
         }
+
+        public ActionResult Test()//模仿微信服务端做测试！
+        {
+            #region 发post请求   
+
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:4943/Mathtool/SourceBuyNotify");
+
+            var postData ="<xml><appid><![CDATA[wx2421b1c4370ec43b]]></appid><attach><![CDATA[支付测试]]></attach><bank_type><![CDATA[CFT]]></bank_type><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[Y]]></is_subscribe><mch_id><![CDATA[10000100]]></mch_id><nonce_str><![CDATA[5d2b6c2a8db53831f7eda20af46e531c]]></nonce_str><openid><![CDATA[oUpF8uMEb4qRXf22hE3X68TekukE]]></openid><out_trade_no><![CDATA[1409811653]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[B552ED6B279343CB493C5DD0D78AB241]]></sign><sub_mch_id><![CDATA[10000100]]></sub_mch_id><time_end><![CDATA[20140903131540]]></time_end><total_fee>1</total_fee><trade_type><![CDATA[JSAPI]]></trade_type><transaction_id><![CDATA[1004400740201409030005092168]]></transaction_id></xml>";
+
+            var data = Encoding.UTF8.GetBytes(postData);
+
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            #endregion
+
+            return Content("发送成功！");
+        }
+
+        [HttpPost]
+        public ActionResult SourceBuyNotify()
+        {
+            //签名正确   处理订单操作逻辑
+            String xmlData = getPostStr();//获取请求数据
+
+            if (xmlData == "")
+            {
+               // Log.Error(this.GetType().ToString(), "xmlData返回为空");
+                return Content("xmlData返回为空");
+            }
+            else
+            {
+               // Log.Info(this.GetType().ToString(), "xmlData返回不为空");
+                var dic = new Dictionary<string, string>
+                {
+                    {"return_code", "SUCCESS"},
+                    {"return_msg","OK"}
+   
+                };
+                var sb = new StringBuilder();
+                sb.Append("<xml>");
+                foreach (var d in dic)
+                {
+                    sb.Append("<" + d.Key + ">" + d.Value + "</" + d.Key + ">");
+                }
+                sb.Append("</xml>");
+                //把数据重新返回给客户端
+                DataSet ds = new DataSet();
+                StringReader stram = new StringReader(xmlData);
+                XmlTextReader datareader = new XmlTextReader(stram);
+                ds.ReadXml(datareader);
+                if (ds.Tables[0].Rows[0]["return_code"].ToString() == "SUCCESS")
+                {
+                   // Log.Info(this.GetType().ToString(), "SUCCESS");
+                    string wx_appid = "";//微信开放平台审核通过的应用APPID
+                    string wx_mch_id = "";//微信支付分配的商户号
+
+                    string wx_nonce_str = "";// 	随机字符串，不长于32位
+                    string wx_sign = "";//签名，详见签名算法
+                    string wx_result_code = "";//SUCCESS/FAIL
+
+                    string wx_return_code = "";
+                    string wx_openid = "";//用户在商户appid下的唯一标识
+                    string wx_is_subscribe = "";//用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
+                    string wx_trade_type = "";// 	APP
+                    string wx_bank_type = "";// 	银行类型，采用字符串类型的银行标识，银行类型见银行列表
+                    string wx_fee_type = "";// 	货币类型，符合ISO4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
+
+
+                    string wx_transaction_id = "";//微信支付订单号
+                    string wx_out_trade_no = "";//商户系统的订单号，与请求一致。
+                    string wx_time_end = "";// 	支付完成时间，格式为yyyyMMddHHmmss，如2009年12月25日9点10分10秒表示为20091225091010。其他详见时间规则
+                    int wx_total_fee = -1;// 	订单总金额，单位为分
+                    int wx_cash_fee = -1;//现金支付金额订单现金支付金额，详见支付金额
+
+                    #region  数据解析
+                    //列 是否存在
+                    string signstr = "";//需要前面的字符串
+                    //wx_appid
+                    if (ds.Tables[0].Columns.Contains("appid"))
+                    {
+                        wx_appid = ds.Tables[0].Rows[0]["appid"].ToString();
+                        if (!string.IsNullOrEmpty(wx_appid))
+                        {
+                            signstr += "appid=" + wx_appid;
+                        }
+                    }
+                    //wx_bank_type
+                    if (ds.Tables[0].Columns.Contains("bank_type"))
+                    {
+                        wx_bank_type = ds.Tables[0].Rows[0]["bank_type"].ToString();
+                        if (!string.IsNullOrEmpty(wx_bank_type))
+                        {
+                            signstr += "&bank_type=" + wx_bank_type;
+                        }
+                    }
+                    //wx_cash_fee
+                    if (ds.Tables[0].Columns.Contains("cash_fee"))
+                    {
+                        wx_cash_fee = Convert.ToInt32(ds.Tables[0].Rows[0]["cash_fee"].ToString());
+
+                        signstr += "&cash_fee=" + wx_cash_fee;
+                    }
+
+                    //wx_fee_type
+                    if (ds.Tables[0].Columns.Contains("fee_type"))
+                    {
+                        wx_fee_type = ds.Tables[0].Rows[0]["fee_type"].ToString();
+                        if (!string.IsNullOrEmpty(wx_fee_type))
+                        {
+                            signstr += "&fee_type=" + wx_fee_type;
+                        }
+                    }
+
+                    //wx_is_subscribe
+                    if (ds.Tables[0].Columns.Contains("is_subscribe"))
+                    {
+                        wx_is_subscribe = ds.Tables[0].Rows[0]["is_subscribe"].ToString();
+                        if (!string.IsNullOrEmpty(wx_is_subscribe))
+                        {
+                            signstr += "&is_subscribe=" + wx_is_subscribe;
+                        }
+                    }
+
+                    //wx_mch_id
+                    if (ds.Tables[0].Columns.Contains("mch_id"))
+                    {
+                        wx_mch_id = ds.Tables[0].Rows[0]["mch_id"].ToString();
+                        if (!string.IsNullOrEmpty(wx_mch_id))
+                        {
+                            signstr += "&mch_id=" + wx_mch_id;
+                        }
+                    }
+
+                    //wx_nonce_str
+                    if (ds.Tables[0].Columns.Contains("nonce_str"))
+                    {
+                        wx_nonce_str = ds.Tables[0].Rows[0]["nonce_str"].ToString();
+                        if (!string.IsNullOrEmpty(wx_nonce_str))
+                        {
+                            signstr += "&nonce_str=" + wx_nonce_str;
+                        }
+                    }
+
+                    //wx_openid
+                    if (ds.Tables[0].Columns.Contains("openid"))
+                    {
+                        wx_openid = ds.Tables[0].Rows[0]["openid"].ToString();
+                        if (!string.IsNullOrEmpty(wx_openid))
+                        {
+                            signstr += "&openid=" + wx_openid;
+                        }
+                    }
+
+                    //wx_out_trade_no
+                    if (ds.Tables[0].Columns.Contains("out_trade_no"))
+                    {
+                        wx_out_trade_no = ds.Tables[0].Rows[0]["out_trade_no"].ToString();
+                        if (!string.IsNullOrEmpty(wx_out_trade_no))
+                        {
+                            signstr += "&out_trade_no=" + wx_out_trade_no;
+                        }
+                    }
+
+                    //wx_result_code 
+                    if (ds.Tables[0].Columns.Contains("result_code"))
+                    {
+                        wx_result_code = ds.Tables[0].Rows[0]["result_code"].ToString();
+                        if (!string.IsNullOrEmpty(wx_result_code))
+                        {
+                            signstr += "&result_code=" + wx_result_code;
+                        }
+                    }
+
+                    //wx_result_code 
+                    if (ds.Tables[0].Columns.Contains("return_code"))
+                    {
+                        wx_return_code = ds.Tables[0].Rows[0]["return_code"].ToString();
+                        if (!string.IsNullOrEmpty(wx_return_code))
+                        {
+                            signstr += "&return_code=" + wx_return_code;
+                        }
+                    }
+
+                    //wx_sign 
+                    if (ds.Tables[0].Columns.Contains("sign"))
+                    {
+                        wx_sign = ds.Tables[0].Rows[0]["sign"].ToString();
+                        if (!string.IsNullOrEmpty(wx_sign))
+                        {
+                            signstr += "&sign=" + wx_sign;
+                        }
+                    }
+
+                    //wx_time_end
+                    if (ds.Tables[0].Columns.Contains("time_end"))
+                    {
+                        wx_time_end = ds.Tables[0].Rows[0]["time_end"].ToString();
+                        if (!string.IsNullOrEmpty(wx_time_end))
+                        {
+                            signstr += "&time_end=" + wx_time_end;
+                        }
+                    }
+
+                    //wx_total_fee
+                    if (ds.Tables[0].Columns.Contains("total_fee"))
+                    {
+                        wx_total_fee = Convert.ToInt32(ds.Tables[0].Rows[0]["total_fee"].ToString());
+
+                        signstr += "&total_fee=" + wx_total_fee;
+                    }
+
+                    //wx_trade_type
+                    if (ds.Tables[0].Columns.Contains("trade_type"))
+                    {
+                        wx_trade_type = ds.Tables[0].Rows[0]["trade_type"].ToString();
+                        if (!string.IsNullOrEmpty(wx_trade_type))
+                        {
+                            signstr += "&trade_type=" + wx_trade_type;
+                        }
+                    }
+
+                    //wx_transaction_id
+                    if (ds.Tables[0].Columns.Contains("transaction_id"))
+                    {
+                        wx_transaction_id = ds.Tables[0].Rows[0]["transaction_id"].ToString();
+                        if (!string.IsNullOrEmpty(wx_transaction_id))
+                        {
+                            signstr += "&transaction_id=" + wx_transaction_id;
+                        }
+                    }
+                    #endregion
+
+                    //追加key 密钥
+                    signstr += "&key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["wx_key"].ToString();
+                    //商户订单号
+                    string orderStrwhere = "ordernumber='" + wx_out_trade_no + "'";
+
+                    // Log.Info(this.GetType().ToString(), "开始验证MD5");
+
+
+
+                    //MD5加密
+                    //sign = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sign, "MD5").ToUpper(); //过时
+                    MD5 md5 = MD5.Create();
+                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(signstr);
+                    byte[] md5Buffer = md5.ComputeHash(buffer);
+                    StringBuilder sb_Second = new StringBuilder();
+                    foreach (byte b in md5Buffer)
+                    {
+                        sb_Second.Append(b.ToString("x2"));
+                    }
+
+                    if (wx_sign == sb_Second.ToString().ToUpper())
+                    {
+                       // Log.Info(this.GetType().ToString(), "MD5正确");
+                        //签名正确   处理订单操作逻辑
+
+                        /*
+
+                        Bmob.initialize("ccc68dbe0f36e9ffde862bf57c522c17", "551ab6f1b93dc07282bae1ce66cb6602");
+
+                        BmobQuery query = new BmobQuery();
+                        //查询playerName的值为bmob的记录
+                        string objectId = null;
+                        query.WhereEqualTo("wx_out_trade_no", wx_out_trade_no);
+                        Bmob.Find<OrderTable>("OrderTable", query, (resp, exception) =>
+                        {
+                            if (exception != null)
+                            {
+                                //print("查询失败, 失败原因为： " + exception.Message);
+                                return;
+                            }
+                            //对返回结果进行处理
+                            List<OrderTable> list = resp.results;
+                            string jsonStr = list[0].ToString();
+                            int count = jsonStr.Length - 10;
+                            string str = jsonStr.Substring(10, count);
+                            JsonData jd = JsonMapper.ToObject(str);
+                            objectId = (string)jd["objectId"];
+                            Log.Info(this.GetType().ToString(), "objectId " + objectId);
+                            bool wx_order_status = (bool)jd["wx_order_status"];
+                            //有没有修改过
+                            if (wx_order_status != true)
+                            {
+                                Log.Info(this.GetType().ToString(), "修改订单状态");
+                                Setwx_order_status(objectId);
+                                Log.Info(this.GetType().ToString(), "启动余额更新");
+                                SetAccountBalance(objectId);
+
+                            }
+                            else
+                            {
+                               // Log.Info(this.GetType().ToString(), "订单状态已修改");
+                            }
+                        
+
+                        });*/
+
+                    }
+                    else
+                    {
+                        //追加备注信息
+                       // Log.Error(this.GetType().ToString(), "MD5错误");
+                    }
+
+                }
+                else
+                {
+                    // 返回信息，如非空，为错误原因  签名失败 参数格式校验错误
+                    string return_msg = ds.Tables[0].Rows[0]["return_msg"].ToString();
+
+                }
+
+                return Content(sb.ToString());
+            }
+
+
+
+
+
+
+
+
+
+
+            return Content("OK!");
+        }
+
+        //获得Post过来的数据
+        public string getPostStr()
+        {
+            Int32 intLen = Convert.ToInt32(Request.InputStream.Length);
+            byte[] b = new byte[intLen];
+            Request.InputStream.Read(b, 0, intLen);
+            return System.Text.Encoding.UTF8.GetString(b);
+        }
+
+
+        //public void Setwx_order_status(string objectId)
+        //{
+        //    OrderTable orderTab = new OrderTable();
+        //    orderTab.wx_order_status = true;
+        //    Bmob.Update("OrderTable", objectId, orderTab, (resp, exception) =>
+        //    {
+        //        if (exception != null)
+        //        {
+        //            //Response.Write("修改失败, 失败原因为： " + exception.Message);
+        //            return;
+        //        }
+
+        //        //Response.Write("修改成功, @" + resp.updatedAt);
+        //    });
+        //}
+        //public void SetAccountBalance(string objectId)
+        //{
+        //    OrderTable orderTab = new OrderTable();
+        //    orderTab.wx_order_status = true;
+        //    Bmob.Update("OrderTable", objectId, orderTab, (resp, exception) =>
+        //    {
+        //        if (exception != null)
+        //        {
+        //            //Response.Write("修改失败, 失败原因为： " + exception.Message);
+        //            return;
+        //        }
+
+        //        //Response.Write("修改成功, @" + resp.updatedAt);
+        //    });
+        //}
+
+
+
+
         /*
          微信小程序登陆流程：
          1、code由wx.login(OBJECT)获取，其余均由wx.getUserInfo(OBJECT)获取.参数含义,见参数说明.
