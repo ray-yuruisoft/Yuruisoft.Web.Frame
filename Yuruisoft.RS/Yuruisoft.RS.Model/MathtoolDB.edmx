@@ -12,6 +12,7 @@
           <EntitySet Name="math_AbilityContent" EntityType="MathtoolDBEntitiesModel.Store.math_AbilityContent" store:Type="Tables" Schema="rayyewang01" />
           <EntitySet Name="math_FeedBackInfo" EntityType="MathtoolDBEntitiesModel.Store.math_FeedBackInfo" store:Type="Tables" Schema="rayyewang01" />
           <EntitySet Name="math_SourceBuy" EntityType="MathtoolDBEntitiesModel.Store.math_SourceBuy" store:Type="Tables" Schema="rayyewang01" />
+          <EntitySet Name="math_SourceBuyOrderstatus" EntityType="MathtoolDBEntitiesModel.Store.math_SourceBuyOrderstatus" store:Type="Tables" Schema="rayyewang01" />
           <EntitySet Name="math_user_info" EntityType="MathtoolDBEntitiesModel.Store.math_user_info" store:Type="Tables" Schema="rayyewang01" />
         </EntityContainer>
         <EntityType Name="math_key_and_level">
@@ -81,6 +82,16 @@
           <Property Name="Sort" Type="int" />
           <Property Name="Remark" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="math_SourceBuyOrderstatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="sourceBuyId" Type="int" Nullable="false" />
+          <Property Name="orderStatus" Type="int" Nullable="false" />
+          <Property Name="orderName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <EntityType Name="math_user_info">
           <Key>
             <PropertyRef Name="openId" />
@@ -116,6 +127,7 @@
           <EntitySet Name="math_AbilityContent" EntityType="MathtoolDBEntitiesModel.math_AbilityContent" />
           <EntitySet Name="math_FeedBackInfo" EntityType="MathtoolDBEntitiesModel.math_FeedBackInfo" />
           <EntitySet Name="math_SourceBuy" EntityType="MathtoolDBEntitiesModel.math_SourceBuy" />
+          <EntitySet Name="math_SourceBuyOrderstatus" EntityType="MathtoolDBEntitiesModel.math_SourceBuyOrderstatus" />
         </EntityContainer>
         <EntityType Name="math_key_and_level">
           <Key>
@@ -206,6 +218,16 @@
           <Property Type="String" Name="WxBody" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SurportTitle" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="SurportDetail" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="math_SourceBuyOrderstatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="sourceBuyId" Nullable="false" />
+          <Property Type="Int32" Name="orderStatus" Nullable="false" />
+          <Property Type="String" Name="orderName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -306,6 +328,17 @@
                 <ScalarProperty Name="SBTitle" ColumnName="SBTitle" />
                 <ScalarProperty Name="SBContentImage" ColumnName="SBContentImage" />
                 <ScalarProperty Name="SBContent" ColumnName="SBContent" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="math_SourceBuyOrderstatus">
+            <EntityTypeMapping TypeName="MathtoolDBEntitiesModel.math_SourceBuyOrderstatus">
+              <MappingFragment StoreEntitySet="math_SourceBuyOrderstatus">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="orderName" ColumnName="orderName" />
+                <ScalarProperty Name="orderStatus" ColumnName="orderStatus" />
+                <ScalarProperty Name="sourceBuyId" ColumnName="sourceBuyId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -7,6 +7,7 @@
     <EntitySet Name="math_AbilityContent" EntityType="MathtoolDBEntitiesModel.Store.math_AbilityContent" store:Type="Tables" Schema="rayyewang01" />
     <EntitySet Name="math_FeedBackInfo" EntityType="MathtoolDBEntitiesModel.Store.math_FeedBackInfo" store:Type="Tables" Schema="rayyewang01" />
     <EntitySet Name="math_SourceBuy" EntityType="MathtoolDBEntitiesModel.Store.math_SourceBuy" store:Type="Tables" Schema="rayyewang01" />
+    <EntitySet Name="math_SourceBuyOrderstatus" EntityType="MathtoolDBEntitiesModel.Store.math_SourceBuyOrderstatus" store:Type="Tables" Schema="rayyewang01" />
     <EntitySet Name="math_user_info" EntityType="MathtoolDBEntitiesModel.Store.math_user_info" store:Type="Tables" Schema="rayyewang01" />
   </EntityContainer>
   <EntityType Name="math_key_and_level">
@@ -75,6 +76,16 @@
     <Property Name="ModiyTime" Type="datetime" />
     <Property Name="Sort" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="math_SourceBuyOrderstatus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="sourceBuyId" Type="int" Nullable="false" />
+    <Property Name="orderStatus" Type="int" Nullable="false" />
+    <Property Name="orderName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" Nullable="false" MaxLength="50" />
   </EntityType>
   <EntityType Name="math_user_info">
     <Key>

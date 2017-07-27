@@ -32,5 +32,6 @@ namespace Yuruisoft.RS.Model
         public DbSet<math_AbilityContent> math_AbilityContent { get; set; }
         public DbSet<math_FeedBackInfo> math_FeedBackInfo { get; set; }
         public DbSet<math_SourceBuy> math_SourceBuy { get; set; }
+        public DbSet<math_SourceBuyOrderstatus> math_SourceBuyOrderstatus { get; set; }
     }
 }

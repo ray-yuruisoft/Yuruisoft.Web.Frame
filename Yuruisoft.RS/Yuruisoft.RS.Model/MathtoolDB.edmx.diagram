@@ -12,6 +12,7 @@
         <EntityTypeShape EntityType="MathtoolDBEntitiesModel.math_AbilityContent" Width="1.5" PointX="0.5" PointY="3.25" />
         <EntityTypeShape EntityType="MathtoolDBEntitiesModel.math_FeedBackInfo" Width="1.5" PointX="8.75" PointY="0.5" />
         <EntityTypeShape EntityType="MathtoolDBEntitiesModel.math_SourceBuy" Width="1.5" PointX="11" PointY="0.5" />
+        <EntityTypeShape EntityType="MathtoolDBEntitiesModel.math_SourceBuyOrderstatus" Width="1.5" PointX="2.25" PointY="3.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

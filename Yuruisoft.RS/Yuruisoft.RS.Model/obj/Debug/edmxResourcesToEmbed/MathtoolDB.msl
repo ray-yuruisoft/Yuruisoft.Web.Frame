@@ -98,5 +98,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="math_SourceBuyOrderstatus">
+      <EntityTypeMapping TypeName="MathtoolDBEntitiesModel.math_SourceBuyOrderstatus">
+        <MappingFragment StoreEntitySet="math_SourceBuyOrderstatus">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="orderName" ColumnName="orderName" />
+          <ScalarProperty Name="orderStatus" ColumnName="orderStatus" />
+          <ScalarProperty Name="sourceBuyId" ColumnName="sourceBuyId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

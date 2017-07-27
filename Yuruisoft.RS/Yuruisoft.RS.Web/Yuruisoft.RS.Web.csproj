@@ -155,7 +155,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogOnController.cs" />
-    <Compile Include="Controllers\MathtoolController.cs" />
+    <Compile Include="Controllers\mathTool\MathtoolController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\RoleInfoController.cs" />
     <Compile Include="Controllers\RouteStatisticsLinksController.cs" />

@@ -61,6 +61,7 @@
     <Compile Include="EnterPagePortfolioModal\portfolioModal.cs" />
     <Compile Include="EntityClassInfo.cs" />
     <Compile Include="Enum\ActionTypeEnum.cs" />
+    <Compile Include="Enum\Notifystatus.cs" />
     <Compile Include="MathtoolDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,6 +94,9 @@
       <DependentUpon>MathtoolDB.tt</DependentUpon>
     </Compile>
     <Compile Include="math_SourceBuy.cs">
+      <DependentUpon>MathtoolDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="math_SourceBuyOrderstatus.cs">
       <DependentUpon>MathtoolDB.tt</DependentUpon>
     </Compile>
     <Compile Include="math_user_info.cs">
