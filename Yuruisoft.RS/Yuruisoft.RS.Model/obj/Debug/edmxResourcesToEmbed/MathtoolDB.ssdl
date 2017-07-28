@@ -76,6 +76,7 @@
     <Property Name="ModiyTime" Type="datetime" />
     <Property Name="Sort" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="SourceUrl" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="math_SourceBuyOrderstatus">
     <Key>

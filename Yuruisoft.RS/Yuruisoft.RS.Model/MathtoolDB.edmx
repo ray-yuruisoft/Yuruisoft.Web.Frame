@@ -81,6 +81,7 @@
           <Property Name="ModiyTime" Type="datetime" />
           <Property Name="Sort" Type="int" />
           <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="SourceUrl" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="math_SourceBuyOrderstatus">
           <Key>
@@ -218,6 +219,7 @@
           <Property Type="String" Name="WxBody" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SurportTitle" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="SurportDetail" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SourceUrl" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="math_SourceBuyOrderstatus">
           <Key>
@@ -316,6 +318,7 @@
           <EntitySetMapping Name="math_SourceBuy">
             <EntityTypeMapping TypeName="MathtoolDBEntitiesModel.math_SourceBuy">
               <MappingFragment StoreEntitySet="math_SourceBuy">
+                <ScalarProperty Name="SourceUrl" ColumnName="SourceUrl" />
                 <ScalarProperty Name="SurportDetail" ColumnName="SurportDetail" />
                 <ScalarProperty Name="SurportTitle" ColumnName="SurportTitle" />
                 <ScalarProperty Name="WxBody" ColumnName="WxBody" />

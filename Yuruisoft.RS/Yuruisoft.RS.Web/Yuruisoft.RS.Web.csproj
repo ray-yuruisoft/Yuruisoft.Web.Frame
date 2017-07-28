@@ -177,6 +177,7 @@
     <Content Include="App_Data\Config\Yuruisoft.RS.Config\ConfigDataProvider.json.txt" />
     <Content Include="App_Data\Config\Yuruisoft.RS.Config\DBInitialize.sql" />
     <Content Include="App_Data\Log\Logs_20170515.txt" />
+    <Content Include="App_Data\SourceBuy\常用Git指令.txt" />
     <Content Include="Content\Images\3DSMAX.png" />
     <Content Include="Content\Images\7_7.jpg" />
     <Content Include="Content\Images\Alien Folder.png" />

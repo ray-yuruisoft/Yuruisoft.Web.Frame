@@ -82,6 +82,7 @@
     <EntitySetMapping Name="math_SourceBuy">
       <EntityTypeMapping TypeName="MathtoolDBEntitiesModel.math_SourceBuy">
         <MappingFragment StoreEntitySet="math_SourceBuy">
+          <ScalarProperty Name="SourceUrl" ColumnName="SourceUrl" />
           <ScalarProperty Name="SurportDetail" ColumnName="SurportDetail" />
           <ScalarProperty Name="SurportTitle" ColumnName="SurportTitle" />
           <ScalarProperty Name="WxBody" ColumnName="WxBody" />

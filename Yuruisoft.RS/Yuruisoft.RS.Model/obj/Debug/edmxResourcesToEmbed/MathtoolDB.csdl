@@ -99,6 +99,7 @@
     <Property Type="String" Name="WxBody" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Type="String" Name="SurportTitle" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Type="String" Name="SurportDetail" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SourceUrl" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="math_SourceBuyOrderstatus">
     <Key>

@@ -27,5 +27,6 @@ namespace Yuruisoft.RS.Model
         public string WxBody { get; set; }
         public string SurportTitle { get; set; }
         public string SurportDetail { get; set; }
+        public string SourceUrl { get; set; }
     }
 }
