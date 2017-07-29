@@ -322,8 +322,9 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                     //获取配置文件
                     string key = System.Web.Configuration.WebConfigurationManager.AppSettings["wx_key"].ToString();
                     string wx_mch_id = System.Web.Configuration.WebConfigurationManager.AppSettings["wx_mch_id"].ToString();
-
-                    var results = WxExtensionClass.Wxpay(CurrentPay.WxBody, CurrentPay.TotalFee.ToString(), "http://lifark.com/notify_url.aspx", userinfo.appid, wx_mch_id, userinfo.openId, key);
+                    string notify_url = "https://" + Request.Url.Host.ToString() + "Mathtool/SourceBuyNotify/";
+                    //"http://lifark.com/notify_url.aspx"
+                    var results = WxExtensionClass.Wxpay(CurrentPay.WxBody, CurrentPay.TotalFee.ToString(), notify_url, userinfo.appid, wx_mch_id, userinfo.openId, key);
 
                     if (results != null)
                     {
@@ -498,26 +499,13 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                                             };
                 var sbDBF = new StringBuilder();
                 sbDBF.Append("<xml>");
-                foreach (var d in dic)
+                foreach (var d in dicDBF)
                 {
                     sbDBF.Append("<" + d.Key + ">" + d.Value + "</" + d.Key + ">");
                 }
                 sbDBF.Append("</xml>");
                 #endregion
-                #region 3、MD5错误状态码
-                var dicMD5 = new Dictionary<string, string>
-                                            {
-                                                {"return_code", "FAIL"},
-                                                {"return_msg","签名失败"}
-                                            };
-                var sbMD5 = new StringBuilder();
-                sbDBF.Append("<xml>");
-                foreach (var d in dic)
-                {
-                    sbMD5.Append("<" + d.Key + ">" + d.Value + "</" + d.Key + ">");
-                }
-                sbMD5.Append("</xml>");
-                #endregion
+
                 //把数据重新返回给客户端
 
                 DataSet ds = new DataSet();
@@ -738,27 +726,56 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
 
                             math_SourceBuyOrderstatus Temp = Db.Set<math_SourceBuyOrderstatus>().Find(CurrentStatus.id);
                             Temp.orderStatus = (int)Notifystatus.PayAndSend;
-                            if (Db.SaveChanges() == 0)
+                            if (Db.SaveChanges() == 0)//数据库出错
                             {
                                 return Content(sbDBF.ToString());//返回错误信息
                             }
                         }
-                        else
+                        else//数据库出错
                         {
                             return Content(sbDBF.ToString());//返回错误信息
                         }
                     }
-                    else
+                    else//MD5验证失败
                     {
+                        #region 3、MD5错误状态码
+                        var dicMD5 = new Dictionary<string, string>
+                                            {
+                                                {"return_code", "FAIL"},
+                                                {"return_msg","签名失败"}
+                                            };
+                        var sbMD5 = new StringBuilder();
+                        sbDBF.Append("<xml>");
+                        foreach (var d in dicMD5)
+                        {
+                            sbMD5.Append("<" + d.Key + ">" + d.Value + "</" + d.Key + ">");
+                        }
+                        sbMD5.Append("</xml>");
+                        #endregion
                         return Content(sbMD5.ToString());//返回错误信息
                         //追加备注信息
                        // Log.Error(this.GetType().ToString(), "MD5错误");
                     }
                 }
-                else
+                else//return_code不是成功的情况
                 {
                     // 返回信息，如非空，为错误原因  签名失败 参数格式校验错误
                     string return_msg = ds.Tables[0].Rows[0]["return_msg"].ToString();
+                    #region 4、状态码直接返回
+                    var dicDir = new Dictionary<string, string>
+                                            {
+                                                {"return_code", "FAIL"},
+                                                {"return_msg",return_msg}
+                                            };
+                    var sbDir = new StringBuilder();
+                    sbDir.Append("<xml>");
+                    foreach (var d in dicDir)
+                    {
+                        sbDir.Append("<" + d.Key + ">" + d.Value + "</" + d.Key + ">");
+                    }
+                    sbDir.Append("</xml>");
+                    #endregion
+                    return Content(sbDir.ToString());
                 }
                 return Content(sb.ToString());
             }
@@ -903,7 +920,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
         /// <param name="wx_body"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Wxpaydeal(string yuruisoft_seesion,string total_fee,string wx_body)//微信支付处理
+        public ActionResult Wxpaydeal(string yuruisoft_seesion,string total_fee,string wx_body)//TODO：回调未处理，微信支付处理
         {
             if (Request.Headers["yuruisoft"] != "www.yuruisoft.com")//请求头自定义
             {
@@ -945,7 +962,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
 
                 /**测试***测试环境使用IP*/
 
-                 wx_spbill_create_ip = "182.149.203.40";
+                 //wx_spbill_create_ip = "182.149.203.40";
                 /**测试强制赋值*/
 
 
