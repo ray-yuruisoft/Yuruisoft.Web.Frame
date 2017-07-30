@@ -50,7 +50,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                   string[] Array = item.url.Replace("_url_", "#").Split('#');
                   results.Add(new//TODO:这里为了测试暂时用http而不用https
                   {
-                      image_url = "http://" + Request.Url.Host.ToString() + ":4943/Mathtool/images/formula/" + Array[0] + "/" + item.url
+                      image_url = "http://" + Request.Url.Host.ToString() + "/Mathtool/images/formula/" + Array[0] + "/" + item.url
                   });
                }
                 #endregion
@@ -132,9 +132,9 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 return Json(new
                 {
                     txt_data = result.AbContent.Replace(@"\n","\n"),
-                    url_gongshi = "http://" + Request.Url.Host.ToString() + ":4943/Mathtool/images/NLTS_XXSJ/NLTS_XXSJ_gongshi_" + result.id + ".gif",
-                    url_daizhi_left = "http://" + Request.Url.Host.ToString() + ":4943/Mathtool/images/NLTS_XXSJ/NLTS_XXSJ_daizhi_left_" + result.id + ".gif",
-                    url_daizhi_right = "http://" + Request.Url.Host.ToString() + ":4943/Mathtool/images/NLTS_XXSJ/NLTS_XXSJ_daizhi_right_" + result.id + ".gif"
+                    url_gongshi = "http://" + Request.Url.Host.ToString() + "/Mathtool/images/NLTS_XXSJ/NLTS_XXSJ_gongshi_" + result.id + ".gif",
+                    url_daizhi_left = "http://" + Request.Url.Host.ToString() + "/Mathtool/images/NLTS_XXSJ/NLTS_XXSJ_daizhi_left_" + result.id + ".gif",
+                    url_daizhi_right = "http://" + Request.Url.Host.ToString() + "/Mathtool/images/NLTS_XXSJ/NLTS_XXSJ_daizhi_right_" + result.id + ".gif"
                 });
             }
             return Json(new { error = true });
