@@ -101,9 +101,9 @@ G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\bin\Debug\EntityFr
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\bin\Debug\Newtonsoft.Json.xml
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
-G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\obj\Debug\Yuruisoft.RS.Model.csprojResolveAssemblyReference.cache
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\obj\Debug\Yuruisoft.RS.Model.Migrations.InitialCreate.resources
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\obj\Debug\Yuruisoft.RS.Model.Migrations._20170615_DisabledDynamicModel.resources
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\obj\Debug\Yuruisoft.RS.Model.csproj.GenerateResource.Cache
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\obj\Debug\Yuruisoft.RS.Model.dll
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\obj\Debug\Yuruisoft.RS.Model.pdb
+G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.Model\obj\Debug\Yuruisoft.RS.Model.csprojResolveAssemblyReference.cache

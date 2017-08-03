@@ -12,11 +12,11 @@ namespace Yuruisoft.RS.Web.Controllers.tinyDic
 {
     public class tinyDicController : Controller
     {
-        private DbContext Db;
-        public tinyDicController()//构造注入
-        {
-            Db = Yuruisoft.RS.Model.TinyDicDBFactory.TinyDicDBFactory.CreateDbContext();
-        }
+        //private DbContext Db;
+        //public tinyDicController()//构造注入
+        //{
+        //    Db = Yuruisoft.RS.Model.TinyDicDBFactory.TinyDicDBFactory.CreateDbContext();
+        //}
         [HttpPost]
         public ActionResult Search(string Searchdata, string SeletData)
         {
@@ -27,6 +27,7 @@ namespace Yuruisoft.RS.Web.Controllers.tinyDic
             if (Searchdata != null)
             {
                 dynamic CurrentS;
+                DbContext Db = Yuruisoft.RS.Model.TinyDicDBFactory.TinyDicDBFactory.CreateDbContext();
                 if (SeletData[0] == 'A')
                 {
                     #region 1、多表多条件判断，精确查询A部
@@ -1635,7 +1636,7 @@ namespace Yuruisoft.RS.Web.Controllers.tinyDic
             if (Searchdata != null && TakeNum>0 )
             {
                 dynamic List;
-
+                DbContext Db = Yuruisoft.RS.Model.TinyDicDBFactory.TinyDicDBFactory.CreateDbContext();
                 if (SeletData[0] == 'A')
                 {
                     #region 搜索查询多条件A部
@@ -2435,6 +2436,7 @@ namespace Yuruisoft.RS.Web.Controllers.tinyDic
             if (SeletData != null)
             {
                 dynamic CurrentS;
+                DbContext Db = Yuruisoft.RS.Model.TinyDicDBFactory.TinyDicDBFactory.CreateDbContext();
                 if (SeletData == "a")
                 {
                     CurrentS = Db.Set<WxDic_CnToEn_a>().Where(c => c.WKey == Searchdata);

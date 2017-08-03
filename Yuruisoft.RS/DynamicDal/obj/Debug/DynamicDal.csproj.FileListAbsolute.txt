@@ -42,9 +42,9 @@ G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\Newtonsoft.Json.
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\DynamicModel.pdb
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\EntityFramework.xml
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\EntityFramework.SqlServer.xml
-G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\Newtonsoft.Json.xml
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\zh-Hans\EntityFramework.resources.dll
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\obj\Debug\DynamicDal.csprojResolveAssemblyReference.cache
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\obj\Debug\DynamicDal.dll
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\obj\Debug\DynamicDal.pdb
+G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\DynamicDal\bin\Debug\Newtonsoft.Json.xml

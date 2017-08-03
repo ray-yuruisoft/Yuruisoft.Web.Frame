@@ -153,7 +153,6 @@ G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\bin\Debug\Yuruisoft.
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\bin\Debug\EntityFramework.xml
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\bin\Debug\Yuruisoft.RS.Common.pdb
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\bin\Debug\DynamicModel.pdb
-G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\bin\Debug\Newtonsoft.Json.xml
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\bin\Debug\zh-Hans\EntityFramework.resources.dll
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\obj\Debug\Yuruisoft.RS.BLL.csprojResolveAssemblyReference.cache
 G:\Github\Yuruisoft.Web.Frame\Yuruisoft.RS\Yuruisoft.RS.BLL\obj\Debug\Yuruisoft.RS.BLL.dll

@@ -28,11 +28,11 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
         //
         // GET: /Mathtool/
 
-        private DbContext Db;
-        public MathtoolController()//构造注入
-        {
-            Db = MathtoolDBFactory.CreateDbContext();
-        }
+        //private DbContext Db;
+        //public MathtoolController()//构造注入
+        //{
+        //    Db = MathtoolDBFactory.CreateDbContext();
+        //}
         [HttpPost]
         public ActionResult Searchdeal(string Searchdata)//微信小程序公式页面处理方法
         {
@@ -42,8 +42,9 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 {
                     return Content("forbid!");
                 }
+                DbContext Db = MathtoolDBFactory.CreateDbContext();
                 #region 准确查询
-               ArrayList results = new ArrayList();
+               ArrayList results = new ArrayList();         
                var result_a = Db.Set<math_level_data>().Where(c => (c.first_level == Searchdata) || (c.second_level == Searchdata) || (c.third_level == Searchdata) || (c.fourth_level == Searchdata) || (c.fifth_level == Searchdata) || (c.full_key == Searchdata)).OrderBy(c => c.order_all);
                foreach (var item in result_a)
                {
@@ -92,6 +93,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 IQueryable<math_key_and_level> result;
                 try//高并发场景，有可能出错
                 {
+                     DbContext Db = MathtoolDBFactory.CreateDbContext();
                      result = Db.Set<math_key_and_level>().Where(c => c.keys.Contains(Searchkey)).OrderBy(c=>c.level);
                 }
                 catch (Exception)
@@ -128,6 +130,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 }
 
                 int idInDB = int.Parse(id);
+                DbContext Db = MathtoolDBFactory.CreateDbContext();
                 var result = Db.Set<math_AbilityContent>().Where(c => c.id == idInDB).FirstOrDefault();
                 return Json(new
                 {
@@ -148,6 +151,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 {
                     return Content("forbid!");
                 }
+              DbContext Db = MathtoolDBFactory.CreateDbContext();
               var result = Db.Set<math_user_info>().Any(c => c.yuruisoft_session_key == yuruisoft_session);//确定是否存在
               if (result)
               {
@@ -169,6 +173,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 {
                     return Content("forbid!");
                 }
+                DbContext Db = MathtoolDBFactory.CreateDbContext();
                 var result = Db.Set<math_user_info>().Any(c => c.yuruisoft_session_key == yuruisoft_session);//确定是否存在
                 if (result)
                 {
@@ -206,6 +211,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 {
                     return Content("forbid!");
                 }
+                DbContext Db = MathtoolDBFactory.CreateDbContext();
                 var result = Db.Set<math_user_info>().Where(c => c.yuruisoft_session_key == yuruisoft_session).FirstOrDefault();
                 if (result != null)
                 {
@@ -230,6 +236,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                 {
                     return Content("forbid!");
                 }
+                DbContext Db = MathtoolDBFactory.CreateDbContext();
                 var result = Db.Set<math_user_info>().Where(c => c.yuruisoft_session_key == yuruisoft_session).FirstOrDefault();
                 if (result != null)
                 {
@@ -266,6 +273,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
             {
                 return Content("forbid!");
             }
+            DbContext Db = MathtoolDBFactory.CreateDbContext();
             var Results = Db.Set<math_SourceBuy>().Where(c => true).OrderBy(c => c.Sort).Skip<math_SourceBuy>((page - 1) * pageSize).Take<math_SourceBuy>(pageSize);
             ArrayList results = new ArrayList();
             foreach (var item in Results)
@@ -289,6 +297,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
             {
                 return Content("forbid!");
             }
+            DbContext Db = MathtoolDBFactory.CreateDbContext();
             var Results = Db.Set<math_SourceBuy>().Where(c => c.id == id).FirstOrDefault();
 
             return Json(
@@ -315,6 +324,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
 
             if (yuruisoft_session != null)
             {
+                DbContext Db = MathtoolDBFactory.CreateDbContext();
                 var CurrentPay = Db.Set<math_SourceBuy>().Where(c => c.id == id).FirstOrDefault();
                 if (CurrentPay != null)
                 {
@@ -353,6 +363,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
             {
                 return Content("forbid!");
             }
+            DbContext Db = MathtoolDBFactory.CreateDbContext();
             var SendInfo = Db.Set<math_SourceBuyOrderstatus>().Where(c => c.orderName == orderName).FirstOrDefault();
             if (SendInfo.orderStatus == (int)Notifystatus.PlaceOrder)
             {
@@ -716,6 +727,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
                     {
                        // Log.Info(this.GetType().ToString(), "MD5正确");
                         //签名正确   处理订单操作逻辑
+                        DbContext Db = MathtoolDBFactory.CreateDbContext();
                         if (Db.Set<math_SourceBuyOrderstatus>().Any(c => c.orderName == ds.Tables[0].Rows[0]["wx_out_trade_no"].ToString()))
                         {
                             var CurrentStatus = Db.Set<math_SourceBuyOrderstatus>().Where(c => c.orderName == ds.Tables[0].Rows[0]["wx_out_trade_no"].ToString()).FirstOrDefault();
@@ -847,6 +859,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
             DataFromwx.yuruisoft_session_key = Guid.NewGuid().ToString("N");           //自定义的ThirdSessionKey
             DataFromwx.ModifiedOn = DateTime.Now;                                      //用户最近登陆时间
             #endregion
+            DbContext Db = MathtoolDBFactory.CreateDbContext();
             var CurrentUser = Db.Set<math_user_info>().Where(c => c.openId == DataFromwx.openId).FirstOrDefault();
             if (CurrentUser == null)//判断为首次登陆
             {
@@ -928,6 +941,7 @@ namespace Yuruisoft.RS.Web.Controllers.mathTool
             }
             if (yuruisoft_seesion != null && total_fee != null && wx_body != null)
             {
+                DbContext Db = MathtoolDBFactory.CreateDbContext();
                 var userinfo = Db.Set<math_user_info>().Where(c => c.yuruisoft_session_key == yuruisoft_seesion).FirstOrDefault();
                 //获取配置文件
                 string key = System.Web.Configuration.WebConfigurationManager.AppSettings["wx_key"].ToString();
